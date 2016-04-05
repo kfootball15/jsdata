@@ -5,16 +5,28 @@ app.config(function($stateProvider) {
 		url: '/post/:postId',
 		templateUrl: 'js/post/post.html',
 		controller: 'PostCtrl', 
+		resolve: {
+			users: function (User) {
+		    	return User.findAll();
+			}
+		}
 		/*
 				add a resolve block that retrieves all the users
 				so that the author field of the posts will be automatically 
 				populated
 		*/
-	})
+	});
 });
 
 // add necessary dependencies 
-app.controller('PostCtrl', function() {
+app.controller('PostCtrl', function(Post, $stateParams, $scope) {
+
+
+	Post.find($stateParams.postId).then(function(post){
+		$scope.post = post
+		console.log(post)
+	})
+
 
 
 	/* 1. FIND POST
@@ -29,5 +41,7 @@ app.controller('PostCtrl', function() {
 		successfully edited, and displays the edited post.  
 
 	*/
+
+
 
 })
